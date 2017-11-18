@@ -1,0 +1,54 @@
+﻿<#@ output extension=".cs" #>
+<#@ Assembly Name="System.Core.dll" #>
+<#@ Assembly Name="System.Xml.dll" #>
+<#@ Assembly Name="System.Xml.Linq.dll" #>
+<#@ Assembly Name="System.Windows.Forms.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+
+using System;
+using System.Data;
+using System.Linq;
+using T4Template.Demo.Models;  
+
+
+namespace T4Template.Demo
+{
+    public class <#=NameClass#>Repository : I<#=NameClass#>Repository
+    {
+        public <#=NameClass#>Repository()
+        {
+            
+        }
+		
+		public <#=NameClass#> GetById(int id)
+		{
+		
+			return new <#=NameClass#>();
+		}
+      
+	  public  <#=NameClass#> Create(<#=NameClass#> model)
+	  {
+	  
+		  return model;
+	  
+	  }
+      public  <#=NameClass#> Update(<#=NameClass#> model)
+	  {
+		return model;
+	  }
+      public int Delete(<#=NameClass#> model)
+	  {
+		return 0;
+	  }
+      
+    }
+}
+<#+  
+ 
+#>

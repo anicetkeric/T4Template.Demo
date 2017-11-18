@@ -1,0 +1,65 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ Assembly Name="System.Core.dll" #>
+<#@ Assembly Name="System.Xml.dll" #>
+<#@ Assembly Name="System.Xml.Linq.dll" #>
+<#@ Assembly Name="System.Windows.Forms.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+
+      
+<#@ include file="RepositoryTemplate.tt"  #>  
+<#CreateRepoImplementation();#>
+
+<#@ include file="IRepositoryTemplate.tt"  #>  
+<#CreateRepoInterface();#>
+ 
+<#+   
+ static string NameClass = "Book"; //nom de la classe générée par le template
+	
+  string repoInterfaceFileName = string.Format("IRepositories/I{0}Repository.cs",NameClass);
+  string repoImplementationFileName = string.Format("Repositories/{0}Repository.cs",NameClass);
+    string repoProjectFileName ="T4Template.Demo.csproj";
+     
+  void CreateRepoImplementation() 
+  {
+      string templateDirectory = Path.GetDirectoryName(Host.TemplateFile);
+
+      string outputFilePath = Path.GetFullPath(Path.Combine(templateDirectory, this.repoImplementationFileName));
+      File.WriteAllText(outputFilePath, this.GenerationEnvironment.ToString()); 
+      this.GenerationEnvironment.Remove(0, this.GenerationEnvironment.Length);
+	  UpdateProjectfile(repoProjectFileName,string.Format("<Compile Include=\"Repositories\\{0}Repository.cs\" />",NameClass));
+  }
+       
+  void CreateRepoInterface()
+  {
+      string templateDirectory = Path.GetDirectoryName(Host.TemplateFile);
+      string outputFilePath = Path.GetFullPath(Path.Combine(templateDirectory, this.repoInterfaceFileName));
+      File.WriteAllText(outputFilePath, this.GenerationEnvironment.ToString()); 
+      this.GenerationEnvironment.Remove(0, this.GenerationEnvironment.Length);
+	  UpdateProjectfile(repoProjectFileName,string.Format("<Compile Include=\"IRepositories\\I{0}Repository.cs\" />",NameClass));
+  }
+
+
+
+
+
+//for update project file
+    void UpdateProjectfile(string projectFileNameWithPath,string includeFileText)
+  {
+	  string templateDirectory = Path.GetDirectoryName(Host.TemplateFile);
+      string outputFilePath = Path.GetFullPath(Path.Combine(templateDirectory, projectFileNameWithPath));
+	  var currentText = File.ReadAllText(outputFilePath);
+
+	  if (currentText.IndexOf(includeFileText) == -1) {
+	        currentText = currentText.Replace("<!-- For T4 -->","<!-- For T4 -->\n\t" + includeFileText);
+			File.WriteAllText(outputFilePath, currentText); 
+	  }
+	  
+  }
+		 
+#>

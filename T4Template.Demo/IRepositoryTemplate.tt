@@ -1,0 +1,30 @@
+﻿<#@ output extension=".cs" #>
+<#@ Assembly Name="System.Core.dll" #>
+<#@ Assembly Name="System.Xml.dll" #>
+<#@ Assembly Name="System.Xml.Linq.dll" #>
+<#@ Assembly Name="System.Windows.Forms.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+
+using System;
+using System.Data;
+using T4Template.Demo.Models;  
+
+namespace T4Template.Demo {
+  public interface I<#=NameClass#>Repository {
+
+		<#=NameClass#> GetById(int id);
+        <#=NameClass#> Create(<#=NameClass#> model);
+        <#=NameClass#> Update(<#=NameClass#> model);
+        int Delete(<#=NameClass#> model);
+  }
+ }
+
+<#+  
+ 
+#>
