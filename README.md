@@ -1,5 +1,5 @@
 # T4Template.Demo
-T4 templates generators
+T4 template generators
 
 Generating Code Using Text Template Transformation Toolkit (T4)
 
